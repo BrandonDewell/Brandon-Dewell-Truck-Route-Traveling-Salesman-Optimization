@@ -1,5 +1,6 @@
 from hash_table import ChainingHashTable
-from csv_data import load_package_data, get_package_data, Package, load_distance_array, load_address_array
+from csv_data import load_package_data, get_package_data, Package, load_distance_array, load_address_array, \
+    distance_between
 
 my_hash = ChainingHashTable()
 print('The empty hash table: ', my_hash.table, end='\n\n')
@@ -45,3 +46,9 @@ for i in range(len(address_array)):
 print('Printing address array data line by line:')
 for x in address_array:
     print(x)
+print('')
+
+dist = distance_between('233 Canyon Rd', '1330 2100 S', address_array, distance_array)
+print('The distance between 233 Canyon Rd and 1330 2100 S is: ', dist, 'miles', end='\n\n')
+
+

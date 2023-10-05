@@ -111,4 +111,16 @@ def load_address_array(file_name, address_array):
             address_array.append(address[0])
 
 
-# def distance_between(address1, address2):
+def distance_between(address1, address2, address_array, distance_array):
+    addr1 = address_array.index(address1)  # index 8
+    addr2 = address_array.index(address2)  # index 2
+    # return distance_array[addr1][addr2]
+    return distance_array[addr1][addr2]  # distance is 5.3
+    # print(distance_array[address_array.index(address1)][address_array.index(address2)])
+
+
+"""
+def min_distance_from(from_address, truck_packages):
+    
+    return min
+"""
