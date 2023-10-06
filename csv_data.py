@@ -54,6 +54,7 @@ def load_package_data(file_name, my_hash):
 
             # insert it into the hash table
             my_hash.insert(p_id, package)
+        print('All package data has been inserted into the hash table.', end='\n\n')
 
 
 def get_package_data(my_hash):
@@ -111,12 +112,21 @@ def load_address_array(file_name, address_array):
             address_array.append(address[0])
 
 
+def address_index_lookup(address, address_array):
+    addr = address_array.index(address)
+    print('The address array index for', address, 'is: ', addr)
+    return addr
+
+
 def distance_between(address1, address2, address_array, distance_array):
-    addr1 = address_array.index(address1)  # index 8
-    addr2 = address_array.index(address2)  # index 2
-    # return distance_array[addr1][addr2]
-    return distance_array[addr1][addr2]  # distance is 5.3
-    # print(distance_array[address_array.index(address1)][address_array.index(address2)])
+    addr1 = address_array.index(address1)
+    addr2 = address_array.index(address2)
+    if distance_array[addr1][addr2] == '':  # if the distance is blank due to being on the upper right side of the
+        # distance array, recursively call distance_between with the input addresses reversed.
+        distance_between(address2, address1, address_array, distance_array)
+        return distance_array[addr2][addr1]
+    else:
+        return distance_array[addr1][addr2]
 
 
 """
