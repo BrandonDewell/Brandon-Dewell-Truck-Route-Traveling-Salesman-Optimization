@@ -1,6 +1,6 @@
 from hash_table import ChainingHashTable
 from csv_data import load_package_data, get_package_data, Package, load_distance_array, load_address_array, \
-    distance_between, address_index_lookup
+    distance_between, address_index_lookup, Truck
 
 my_hash = ChainingHashTable()
 print('The empty hash table: ', my_hash.table, end='\n\n')
@@ -40,7 +40,7 @@ second_index = address_index_lookup('2300 Parkway Blvd', address_array)  # row 8
 print(second_index)
 
 print('Testing the distance array\'s output:\nThe distance from the address at index', first_index, ' to the address '
-        'at index', second_index, ' is: ' + first_distance, 'miles', end='\n\n')  # testing the distance array's
+        'at index', second_index, ' is: ', first_distance, 'miles', end='\n\n')  # testing the distance array's
 # output, hope its 4.8
 
 third_index = address_index_lookup('1488 4800 S', address_array)  # index 3
@@ -49,18 +49,15 @@ fourth_index = address_index_lookup('600 E 900 South', address_array)  # index 2
 print(fourth_index)
 
 print('Testing the distance array\'s output:\nThe distance from the address at index', third_index, 'to the address '
-        'at index', fourth_index, ' is: ' + second_distance, 'miles', end='\n\n')  # testing the distance array's
+        'at index', fourth_index, ' is: ', second_distance, 'miles', end='\n\n')  # testing the distance array's
 # output, should be either blank or 10.1
 
-
+print('Using the distance_between function: ')
 dist = distance_between('2835 Main St', '2300 Parkway Blvd', address_array, distance_array)
-print('The distance between 2835 Main St and 2300 Parkway Blvd is: ', dist, 'miles', end='\n\n')
+print('The distance between 2835 Main St and 2300 Parkway Blvd is: ', dist, 'miles')
 
 dist = distance_between('1488 4800 S', '600 E 900 South', address_array, distance_array)
 print('The distance between 1488 4800 S and 600 E 900 South is: ', dist, 'miles', end='\n\n')
-
-# dist = distance_between('233 Canyon Rd', '1330 2100 S', address_array, distance_array)
-# print('The distance between 233 Canyon Rd and 1330 2100 S is: ', dist, 'miles', end='\n\n')
 
 
 print('The current address array looks like: \n', address_array, end='\n\n')
@@ -82,7 +79,10 @@ print('')
 address_index_lookup('', address_array)  # 233 Canyon Rd is located at index 8 since row1 is index 0 in
 # addresses.csv, row2 is index 1, row 8 is index 7, etc.
 print('')
-"""
-
 dist = distance_between('233 Canyon Rd', '1330 2100 S', address_array, distance_array)
 print('The distance between 233 Canyon Rd and 1330 2100 S is: ', dist, 'miles', end='\n\n')
+"""
+
+truck1 = Truck()
+truck2 = Truck()
+truck3 = Truck()

@@ -1,5 +1,7 @@
 import csv
 
+from main import distance_array
+
 
 class Package:
     def __init__(self, ident, address, city, state, zip_code, del_dead_line, wgt, spec_notes):
@@ -85,6 +87,7 @@ def get_distance_data(my_hash, dist1, dist2):
 def insert_package_data(h):
     myHash.insert()
     https://wgu.webex.com/meet/judy.ligocki
+    https://wgu.webex.com/meet/preety.khatri
     student ID # 001478703
 """
 
@@ -129,8 +132,7 @@ def distance_between(address1, address2, address_array, distance_array):
         return distance_array[addr1][addr2]
 
 
-"""
-def min_distance_from(from_address, truck_packages):
-    
+def min_distance_from(from_address, truck_packages, ):
+    for distance_array.index(0, )
+        distance_between(distance_array.index())
     return min
-"""
