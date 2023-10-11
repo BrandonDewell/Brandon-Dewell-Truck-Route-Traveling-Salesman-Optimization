@@ -1,6 +1,7 @@
 import csv
 
-from main import distance_array
+
+# from main import distance_array
 
 
 class Package:
@@ -20,9 +21,13 @@ class Package:
 
 
 class Truck:
-    def __int__(self, current_loc, pkgs):
-        self.current_location = current_loc
+    def __int__(self, pkgs, current_time):
+        self.current_location = '4001 South 700 East'  # start at the hub
         self.packages = pkgs
+        self.miles = 0
+        self.time_left_hub = 0
+        self.current_time = 0
+
         """
         TODO
         info from judy's meeting on 10/3/23
@@ -98,6 +103,7 @@ def load_distance_array(file_name, distance_array):
         for distance in distance_data:
             # print(distance)
             distance_array.append(distance)
+        print('The distance array is loaded.', end='\n\n')
 
 
 """
@@ -113,11 +119,12 @@ def load_address_array(file_name, address_array):
         for address in address_data:
             # print(address[0])
             address_array.append(address[0])
+        print('The address array has been loaded.', end='\n\n')
 
 
 def address_index_lookup(address, address_array):
     addr = address_array.index(address)
-    print('The address array index for', address, 'is: ', addr)
+    print('The address array index for', address, 'is: ', addr, end='\n\n')
     return addr
 
 
@@ -126,13 +133,11 @@ def distance_between(address1, address2, address_array, distance_array):
     addr2 = address_array.index(address2)
     if distance_array[addr1][addr2] == '':  # if the distance is blank due to being on the upper right side of the
         # distance array, recursively call distance_between with the input addresses reversed.
-        distance_between(address2, address1, address_array, distance_array)
+        # distance_array(address2, address1, address_array, distance_array)  # old data
         return distance_array[addr2][addr1]
     else:
         return distance_array[addr1][addr2]
 
 
-def min_distance_from(from_address, truck_packages, ):
-    for distance_array.index(0, )
-        distance_between(distance_array.index())
-    return min
+def min_distance_from(from_address, truck_packages, distance_array):
+    pass
