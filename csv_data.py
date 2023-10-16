@@ -15,9 +15,15 @@ class Package:
         self.weight = wgt
         self.spec_notes = spec_notes
 
-    def __str__(self):  # overwrite print(Package) otherwise it will print object reference
+    def __str__(self):  # The __str__() function controls what should be returned when the class object is
+        # represented as a string.  Overwrite print(Package) to avoid printing its object memory reference location.  If
+        # the __str__() function is not set, the string representation of the object is returned.
         return "%s, %s, %s, %s, %s, %s, %s, %s" % (
             self.id, self.address, self.city, self.state, self.zip, self.del_dead_line, self.weight, self.spec_notes)
+        # %s, %d, and %f are format specifiers or placeholders for formatting strings, decimals, and floats,
+        # etc. respectively.  In this case a string is being used, so %s.  Following the complete string "%s, %s, %s,
+        # %s, %s, %s, %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
+        # within the () after the % symbol.
 
 
 class Truck:
@@ -28,8 +34,8 @@ class Truck:
         self.time_left_hub = 0
         self.current_time = 0
 
+        # TODO
         """
-        TODO
         info from judy's meeting on 10/3/23
         time truck left
         truck total miles
@@ -38,9 +44,18 @@ class Truck:
         time delta
         """
 
-    def __str__(self):  # overwrite print(Truck) to avoid printing object reference.
-        return "%s, %s" % (
-            self.current_location, self.packages)
+
+"""
+    def __str__(self):  # The __str__() function controls what should be returned when the class object is
+        # represented as a string.  Overwrite print(Truck) to avoid printing its object memory reference location.  If
+        # the __str__() function is not set, the string representation of the object is returned.
+        return "%s, %s, %s, %s, %s" % (
+            self.current_location, self.packages, self.miles, self.time_left_hub, self.current_time)
+        # %s, %d, and %f are format specifiers or placeholders for formatting strings, decimals, and floats,
+        # etc. respectively.  In this case a string is being used, so %s.  Following the complete string "%s, %s, %s,
+        # %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
+        # within the () after the % symbol.
+"""
 
 
 def load_package_data(file_name, my_hash):
@@ -71,6 +86,10 @@ def get_package_data(my_hash):
         print("Key: {} and Package: {}".format(i, my_hash.lookup(i + 1)))  # 1 to 11 is sent to
         # myHash.lookup() and printed.
     print('')
+
+
+def get_package_info(my_hash, id):
+    return id
 
 
 # def insert_package_data(file_name, my_hash):
@@ -132,8 +151,7 @@ def distance_between(address1, address2, address_array, distance_array):
     addr1 = address_array.index(address1)
     addr2 = address_array.index(address2)
     if distance_array[addr1][addr2] == '':  # if the distance is blank due to being on the upper right side of the
-        # distance array, recursively call distance_between with the input addresses reversed.
-        # distance_array(address2, address1, address_array, distance_array)  # old data
+        # distance array, return the distance array with the input addresses reversed.
         return distance_array[addr2][addr1]
     else:
         return distance_array[addr1][addr2]

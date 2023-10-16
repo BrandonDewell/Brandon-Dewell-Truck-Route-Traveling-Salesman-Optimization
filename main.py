@@ -1,3 +1,4 @@
+import datetime
 import hash_table
 import csv_data
 
@@ -15,13 +16,11 @@ my_hash.insert(41, package1)
 get_package_data(my_hash)  # to print again and show the added package in the hash table exists.
 """
 
-
 # loading arrays
 distance_array = []
 csv_data.load_distance_array('distances.csv', distance_array)
 address_array = []
 csv_data.load_address_array('addresses.csv', address_array)
-
 
 # this section outputs the distance array to prove it is working
 """
@@ -30,7 +29,6 @@ for x in distance_array:
     print(x)
 print('')
 """
-
 
 # this section outputs a test of the address_index_lookup
 """
@@ -61,7 +59,6 @@ print('Testing the distance array\'s output:\nThe distance from the address at i
 # output, should be either blank or 10.1
 """
 
-
 print('Using the distance_between function.  The first output is for a location on the bottom left of the '
       'addresses.csv file and the second is for the top right section that is blank in the same file, producing '
       'output proving that the function is working properly: ')
@@ -70,7 +67,6 @@ print('The distance between 2835 Main St and 2300 Parkway Blvd is: ', dist, 'mil
 
 dist = csv_data.distance_between('1488 4800 S', '600 E 900 South', address_array, distance_array)
 print('The distance between 1488 4800 S and 600 E 900 South is: ', dist, 'miles', end='\n\n')
-
 
 # this section prints the address array
 """
@@ -87,7 +83,6 @@ for i in range(len(address_array)):
     print(address_array[i])
 """
 
-
 # this section tests the address index lookup
 """
 address_index_lookup('233 Canyon Rd', address_array)  # 233 Canyon Rd is located at index 8 since row1 is index 0 in
@@ -100,7 +95,30 @@ dist = distance_between('233 Canyon Rd', '1330 2100 S', address_array, distance_
 print('The distance between 233 Canyon Rd and 1330 2100 S is: ', dist, 'miles', end='\n\n')
 """
 
+# other stuff for asking for an input within the console and showing how %s and its replacement works in a string.
+"""
+name = input("who are you? ")
+print("hello %s" % (name,))
+"""
 
-truck1 = csv_data.Truck()
+t1 = [csv_data.get_package_info(my_hash, 1), csv_data.get_package_info(my_hash, 29),
+      csv_data.get_package_info(my_hash, 30), csv_data.get_package_info(my_hash, 31),
+      csv_data.get_package_info(my_hash, 34), csv_data.get_package_info(my_hash, 37),
+      csv_data.get_package_info(my_hash, 40)]  # leaves at 8am, must be delivered by 10:30am.
+t2 = [6, 25, 28, 32, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 21, 22, 23, 24, 26, 27, 33, 35, 36, 38,
+      39]  # waits to leave until 9:06am, 6, 25 delivered by 10:30am, the rest must be delivered by the EOD.
+t3 = [15, 13, 14, 16, 20,
+      19]  # leaves at 8am, 15 by 9am, 13, 14, 16, 20 by 10:30am, 19 by EOD, and they all have to be delivered together.
+
+input('Enter the start of day time in hh:mm:ss :')
+start_time = '8:00:00'
+h, m, s = start_time.split(':')
+# time_object = datetime.timedelta(hours=8, minutes=0, seconds=0)
+time_object = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
+
+print('truck 1: ', t1, '\n', 'truck 2: ', t2, '\n', 'truck 3: ', t3)
+
+truck1 = csv_data.Truck(t1, time_object)
 truck2 = csv_data.Truck()
 truck3 = csv_data.Truck()
+print(truck1.current_time)
