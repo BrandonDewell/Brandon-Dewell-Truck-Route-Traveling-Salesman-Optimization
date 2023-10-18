@@ -27,12 +27,13 @@ class Package:
 
 
 class Truck:
-    def __int__(self, pkgs, current_time):
+    def __init__(self, pkgs, current_time):
         self.current_location = '4001 South 700 East'  # start at the hub
         self.packages = pkgs
+        self.current_time = current_time
         self.miles = 0
         self.time_left_hub = 0
-        self.current_time = 0
+        self.start_time = 0
 
         # TODO
         """
@@ -157,5 +158,22 @@ def distance_between(address1, address2, address_array, distance_array):
         return distance_array[addr1][addr2]
 
 
-def min_distance_from(from_address, truck_packages, distance_array):
-    pass
+def min_distance_from(from_address, truck_packages_array):
+    """ for i in truck_packages_array:
+        # print(i)
+        dist = distance_between(from_address, truck_packages_array[i], 'addresses.csv', 'distances.csv')
+        print(dist)
+    """
+    min_dist = 100
+
+    # dist = distance_between(from_address, truck_packages_array[i], 'addresses.csv', 'distances.csv') while
+    # distance_between(from_address, truck_packages_array[i], 'addresses.csv', 'distances.csv') < min_dist and
+    # distance_between(from_address, truck_packages_array[i], 'addresses.csv', 'distances.csv') != 0:
+    for i in truck_packages_array:
+        d = distance_between(from_address, truck_packages_array[i], 'addresses.csv', 'distances.csv')
+        # small = min(d)
+        # print(small)
+        if d < min_dist and d != 0:
+            min_dist = d
+        print(min_dist)
+    # distance_between(from_address, address2)

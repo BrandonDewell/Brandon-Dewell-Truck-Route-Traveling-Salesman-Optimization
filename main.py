@@ -110,15 +110,25 @@ t2 = [6, 25, 28, 32, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 21, 22, 23, 24, 26
 t3 = [15, 13, 14, 16, 20,
       19]  # leaves at 8am, 15 by 9am, 13, 14, 16, 20 by 10:30am, 19 by EOD, and they all have to be delivered together.
 
-input('Enter the start of day time in hh:mm:ss :')
+# input('Enter the start of day time in hh:mm:ss :')
+# TODO put in exceptions
 start_time = '8:00:00'
 h, m, s = start_time.split(':')
 # time_object = datetime.timedelta(hours=8, minutes=0, seconds=0)
 time_object = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
 
-print('truck 1: ', t1, '\n', 'truck 2: ', t2, '\n', 'truck 3: ', t3)
+print('truck 1: ', t1, '\n', 'truck 2: ', t2, '\n', 'truck 3: ', t3, '\n')
+
 
 truck1 = csv_data.Truck(t1, time_object)
-truck2 = csv_data.Truck()
-truck3 = csv_data.Truck()
 print(truck1.current_time)
+truck2 = csv_data.Truck(t2, time_object)
+print('This is truck2', truck2)
+truck3 = csv_data.Truck(t3, time_object)
+print(truck3.current_time)
+
+time_object = datetime.timedelta(seconds=127)
+truck1.current_time = truck1.current_time + time_object
+print(truck1.current_time)
+
+csv_data.min_distance_from("4001 South 700 East", t1)
