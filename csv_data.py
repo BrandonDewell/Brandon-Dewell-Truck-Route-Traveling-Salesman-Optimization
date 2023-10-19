@@ -29,7 +29,7 @@ class Package:
 class Truck:
     def __init__(self, pkgs, current_time):
         self.current_location = '4001 South 700 East'  # start at the hub
-        self.packages = pkgs
+        self.packages = pkgs  # list of packages on each truck
         self.current_time = current_time
         self.miles = 0
         self.time_left_hub = 0
@@ -158,12 +158,48 @@ def distance_between(address1, address2, address_array, distance_array):
         return distance_array[addr1][addr2]
 
 
+def min_distance_from(from_address, truck):
+    min_dist = 100
+    next_addr = 0
+    next_id = 0
+
+    for i in range(len(truck.packages)):
+        # address2 = truck[i + 1]
+        address2 = truck.current_location
+        dist = distance_between(from_address, address2, 'addresses.csv', 'distances.csv')
+        if dist < min_dist:
+            min_dist = dist
+            next_addr = address2
+            next_id = truck
+
+    return next_addr, next_id, min_dist
+
+
+"""
 def min_distance_from(from_address, truck_packages_array):
-    """ for i in truck_packages_array:
+    min_dist = 100
+    next_addr = 0
+    next_id = 0
+
+    for i in range(len(truck_packages_array.packages)):
+        # a2 = truck_packages_array[i + 1]
+        a2 = truck_packages_array.current_location
+        dist = distance_between(from_address, a2, 'addresses.csv', 'distances.csv')
+        if dist < min_dist:
+            min_dist = dist
+            next_addr = a2
+            next_id = truck_packages_array
+
+    return next_addr, next_id, min_dist
+"""
+
+""" for i in truck_packages_array:
         # print(i)
         dist = distance_between(from_address, truck_packages_array[i], 'addresses.csv', 'distances.csv')
         print(dist)
-    """
+"""
+
+"""
     min_dist = 100
 
     # dist = distance_between(from_address, truck_packages_array[i], 'addresses.csv', 'distances.csv') while
@@ -177,3 +213,4 @@ def min_distance_from(from_address, truck_packages_array):
             min_dist = d
         print(min_dist)
     # distance_between(from_address, address2)
+"""

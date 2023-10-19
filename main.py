@@ -101,10 +101,14 @@ name = input("who are you? ")
 print("hello %s" % (name,))
 """
 
+"""
 t1 = [csv_data.get_package_info(my_hash, 1), csv_data.get_package_info(my_hash, 29),
       csv_data.get_package_info(my_hash, 30), csv_data.get_package_info(my_hash, 31),
       csv_data.get_package_info(my_hash, 34), csv_data.get_package_info(my_hash, 37),
-      csv_data.get_package_info(my_hash, 40)]  # leaves at 8am, must be delivered by 10:30am.
+      csv_data.get_package_info(my_hash, 40)]  
+"""
+
+t1 = [1, 29, 30, 31, 34, 37, 40]  # leaves at 8am, must be delivered by 10:30am.
 t2 = [6, 25, 28, 32, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 21, 22, 23, 24, 26, 27, 33, 35, 36, 38,
       39]  # waits to leave until 9:06am, 6, 25 delivered by 10:30am, the rest must be delivered by the EOD.
 t3 = [15, 13, 14, 16, 20,
@@ -117,7 +121,7 @@ h, m, s = start_time.split(':')
 # time_object = datetime.timedelta(hours=8, minutes=0, seconds=0)
 time_object = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
 
-print('truck 1: ', t1, '\n', 'truck 2: ', t2, '\n', 'truck 3: ', t3, '\n')
+print('t1 list: ', t1, '\n', 't2 list: ', t2, '\n', 't3 list: ', t3, '\n')
 
 
 truck1 = csv_data.Truck(t1, time_object)
@@ -130,5 +134,10 @@ print(truck3.current_time)
 time_object = datetime.timedelta(seconds=127)
 truck1.current_time = truck1.current_time + time_object
 print(truck1.current_time)
+print('truck 1 has these packages: ', truck1.packages)  # truck1 is the truck object, .packages is a field in the
+# Truck class which holds the list.
+print('truck 2 has these packages: ', truck2.packages)
+print('truck 3 has these packages: ', truck3.packages)
 
-csv_data.min_distance_from("4001 South 700 East", t1)
+# csv_data.min_distance_from('4001 South 700 East', truck1.packages)
+csv_data.min_distance_from('4001 South 700 East', truck1)
