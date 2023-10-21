@@ -1,9 +1,6 @@
 import csv
 
 
-# from main import distance_array
-
-
 class Package:
     def __init__(self, ident, address, city, state, zip_code, del_dead_line, wgt, spec_notes):
         self.id = ident
@@ -28,7 +25,7 @@ class Package:
 
 class Truck:
     def __init__(self, pkgs, current_time):
-        self.current_location = '4001 South 700 East'  # start at the hub
+        self.current_location = '4001 South 700 East'  # start location is at the hub
         self.packages = pkgs  # list of packages on each truck
         self.current_time = current_time
         self.miles = 0
@@ -45,18 +42,15 @@ class Truck:
         time delta
         """
 
-
-"""
     def __str__(self):  # The __str__() function controls what should be returned when the class object is
         # represented as a string.  Overwrite print(Truck) to avoid printing its object memory reference location.  If
         # the __str__() function is not set, the string representation of the object is returned.
-        return "%s, %s, %s, %s, %s" % (
-            self.current_location, self.packages, self.miles, self.time_left_hub, self.current_time)
+        return "%s, %s, %s, %s, %s, %s" % (
+            self.current_location, self.packages, self.current_time, self.miles, self.time_left_hub, self.start_time)
         # %s, %d, and %f are format specifiers or placeholders for formatting strings, decimals, and floats,
         # etc. respectively.  In this case a string is being used, so %s.  Following the complete string "%s, %s, %s,
         # %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
         # within the () after the % symbol.
-"""
 
 
 def load_package_data(file_name, my_hash):
@@ -77,7 +71,7 @@ def load_package_data(file_name, my_hash):
 
             # insert it into the hash table
             my_hash.insert(p_id, package)
-        print('All package data has been inserted into the hash table.', end='\n\n')
+        # print('All package data has been inserted into the hash table.', end='\n\n')
 
 
 def get_package_data(my_hash):
@@ -113,6 +107,8 @@ def insert_package_data(h):
     myHash.insert()
     https://wgu.webex.com/meet/judy.ligocki
     https://wgu.webex.com/meet/preety.khatri
+    https://wgu.webex.com/meet/mark.denchy
+    
     student ID # 001478703
 """
 
@@ -123,7 +119,7 @@ def load_distance_array(file_name, distance_array):
         for distance in distance_data:
             # print(distance)
             distance_array.append(distance)
-        print('The distance array is loaded.', end='\n\n')
+        # print('The distance array is loaded.', end='\n\n')
 
 
 """
@@ -139,7 +135,7 @@ def load_address_array(file_name, address_array):
         for address in address_data:
             # print(address[0])
             address_array.append(address[0])
-        print('The address array has been loaded.', end='\n\n')
+        # print('The address array has been loaded.', end='\n\n')
 
 
 def address_index_lookup(address, address_array):
@@ -158,21 +154,51 @@ def distance_between(address1, address2, address_array, distance_array):
         return distance_array[addr1][addr2]
 
 
-def min_distance_from(from_address, truck):
-    min_dist = 100
+def min_distance_from(from_address, truck, address_array, distance_array, my_hash):
     next_addr = 0
     next_id = 0
+    min_dist = 100
 
     for i in range(len(truck.packages)):
         # address2 = truck[i + 1]
-        address2 = truck.current_location
-        dist = distance_between(from_address, address2, 'addresses.csv', 'distances.csv')
+        address2 = my_hash.lookup(truck.packages[i]).address
+        # print(address2)
+        dist = float(distance_between(from_address, address2, address_array, distance_array))
+        print('The distance between', from_address, 'and', address2, 'is: ', dist, 'miles.')
         if dist < min_dist:
             min_dist = dist
             next_addr = address2
-            next_id = truck
+            next_id = truck.packages[i]
 
-    return next_addr, next_id, min_dist
+    return next_addr, next_id, min_dist  # all the min distance address package info is returned.
+
+
+def truck_load_pkgs(truck, start_time, address_array, distance_array, my_hash):
+    list_order = []
+    unvisited_addr_list = []
+    visited_addr_list = []
+    total_miles = 0
+
+    for pkg in truck.packages:
+        unvisited_addr_list.append(pkg)
+    print(unvisited_addr_list)
+
+    for i in unvisited_addr_list:
+        next_truck_pkg = min_distance_from(address_array[i], truck, address_array, distance_array, my_hash)
+        print('')
+        print(next_truck_pkg)
+        miles = next_truck_pkg[2]
+        print('miles from', address_array[i], 'to', next_truck_pkg[0], 'is', miles, 'miles.')
+        total_miles = total_miles + next_truck_pkg[2]
+        print('The total miles calculated so far is: ', total_miles, 'miles.', end='\n\n')
+        visited_addr_list.append(address_array[i])
+        print(visited_addr_list)
+        unvisited_addr_list.pop(0)
+
+    """
+    visited_addr = []
+    
+    """
 
 
 """

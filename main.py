@@ -59,6 +59,8 @@ print('Testing the distance array\'s output:\nThe distance from the address at i
 # output, should be either blank or 10.1
 """
 
+# this section proves the distance_between function is working.
+"""
 print('Using the distance_between function.  The first output is for a location on the bottom left of the '
       'addresses.csv file and the second is for the top right section that is blank in the same file, producing '
       'output proving that the function is working properly: ')
@@ -67,6 +69,7 @@ print('The distance between 2835 Main St and 2300 Parkway Blvd is: ', dist, 'mil
 
 dist = csv_data.distance_between('1488 4800 S', '600 E 900 South', address_array, distance_array)
 print('The distance between 1488 4800 S and 600 E 900 South is: ', dist, 'miles', end='\n\n')
+"""
 
 # this section prints the address array
 """
@@ -108,36 +111,52 @@ t1 = [csv_data.get_package_info(my_hash, 1), csv_data.get_package_info(my_hash, 
       csv_data.get_package_info(my_hash, 40)]  
 """
 
-t1 = [1, 29, 30, 31, 34, 37, 40]  # leaves at 8am, must be delivered by 10:30am.
-t2 = [6, 25, 28, 32, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 21, 22, 23, 24, 26, 27, 33, 35, 36, 38,
-      39]  # waits to leave until 9:06am, 6, 25 delivered by 10:30am, the rest must be delivered by the EOD.
-t3 = [15, 13, 14, 16, 20,
-      19]  # leaves at 8am, 15 by 9am, 13, 14, 16, 20 by 10:30am, 19 by EOD, and they all have to be delivered together.
+t1 = [1, 29, 30, 31, 32, 34, 37, 38, 40]  # leaves at 8am, must be delivered by 10:30am, 31 and 32 same address,
+# 37 and 38 same address.
+t2 = [6, 25, 26, 28, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 22, 23, 24, 27, 33, 35, 36, 39]  # waits to leave until
+# 9:06am, 6, 25 delivered by 10:30am, the rest must be delivered by the EOD, 8 and 9 same address, 25and26 same address.
+t3 = [15, 13, 14, 16, 20, 21, 19]  # leaves at 8am, 15 by 9am, 13, 14, 16, 20 by 10:30am, 19 by EOD, and they all
+# have to be delivered together, 15 and 16 same address, 20 and 21 same address.
+
 
 # input('Enter the start of day time in hh:mm:ss :')
 # TODO put in exceptions
-start_time = '8:00:00'
+start_time = '08:00:00'
 h, m, s = start_time.split(':')
 # time_object = datetime.timedelta(hours=8, minutes=0, seconds=0)
 time_object = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
 
-print('t1 list: ', t1, '\n', 't2 list: ', t2, '\n', 't3 list: ', t3, '\n')
+print('t1 list: ', t1)
+print('t2 list: ', t2)
+print('t3 list: ', t3, end='\n\n')
 
 
 truck1 = csv_data.Truck(t1, time_object)
 print(truck1.current_time)
 truck2 = csv_data.Truck(t2, time_object)
-print('This is truck2', truck2)
+print('This is truck2:', truck2)
 truck3 = csv_data.Truck(t3, time_object)
 print(truck3.current_time)
 
 time_object = datetime.timedelta(seconds=127)
 truck1.current_time = truck1.current_time + time_object
-print(truck1.current_time)
+print(truck1.current_time, end='\n\n')
+
 print('truck 1 has these packages: ', truck1.packages)  # truck1 is the truck object, .packages is a field in the
 # Truck class which holds the list.
 print('truck 2 has these packages: ', truck2.packages)
-print('truck 3 has these packages: ', truck3.packages)
+print('truck 3 has these packages: ', truck3.packages, end='\n\n')
 
 # csv_data.min_distance_from('4001 South 700 East', truck1.packages)
-csv_data.min_distance_from('4001 South 700 East', truck1)
+csv_data.truck_load_pkgs(truck1, truck1.start_time, address_array, distance_array, my_hash)
+"""
+next_truck_pkg = csv_data.min_distance_from(address_array[0], truck1, address_array, distance_array, my_hash)
+print('')
+print(next_truck_pkg)
+print(next_truck_pkg[2])
+total_miles = next_truck_pkg[2]
+print(total_miles)
+"""
+# print(csv_data.min_distance_from('4001 South 700 East', truck2, address_array, distance_array, my_hash), end='\n\n')
+# print(csv_data.min_distance_from('4001 South 700 East', truck3, address_array, distance_array, my_hash), end='\n\n')
+
