@@ -111,11 +111,11 @@ t1 = [csv_data.get_package_info(my_hash, 1), csv_data.get_package_info(my_hash, 
       csv_data.get_package_info(my_hash, 40)]  
 """
 
-t1 = [1, 29, 30, 31, 32, 34, 37, 38, 40]  # leaves at 8am, must be delivered by 10:30am, 31 and 32 same address,
+t1_pkgs = [1, 29, 30, 31, 32, 34, 37, 38, 40]  # leaves at 8am, must be delivered by 10:30am, 31 and 32 same address,
 # 37 and 38 same address.
-t2 = [6, 25, 26, 28, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 22, 23, 24, 27, 33, 35, 36, 39]  # waits to leave until
+t2_pkgs = [6, 25, 26, 28, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 22, 23, 24, 27, 33, 35, 36, 39]  # waits to leave until
 # 9:06am, 6, 25 delivered by 10:30am, the rest must be delivered by the EOD, 8 and 9 same address, 25and26 same address.
-t3 = [15, 13, 14, 16, 20, 21, 19]  # leaves at 8am, 15 by 9am, 13, 14, 16, 20 by 10:30am, 19 by EOD, and they all
+t3_pkgs = [15, 13, 14, 16, 20, 21, 19]  # leaves at 8am, 15 by 9am, 13, 14, 16, 20 by 10:30am, 19 by EOD, and they all
 # have to be delivered together, 15 and 16 same address, 20 and 21 same address.
 
 
@@ -126,16 +126,16 @@ h, m, s = start_time.split(':')
 # time_object = datetime.timedelta(hours=8, minutes=0, seconds=0)
 time_object = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
 
-print('t1 list: ', t1)
-print('t2 list: ', t2)
-print('t3 list: ', t3, end='\n\n')
+print('t1 list: ', t1_pkgs)
+print('t2 list: ', t2_pkgs)
+print('t3 list: ', t3_pkgs, end='\n\n')
 
 
-truck1 = csv_data.Truck(t1, time_object)
+truck1 = csv_data.Truck(1, t1_pkgs, time_object)
 print(truck1.current_time)
-truck2 = csv_data.Truck(t2, time_object)
+truck2 = csv_data.Truck(2, t2_pkgs, time_object)
 print('This is truck2:', truck2)
-truck3 = csv_data.Truck(t3, time_object)
+truck3 = csv_data.Truck(3, t3_pkgs, time_object)
 print(truck3.current_time)
 
 time_object = datetime.timedelta(seconds=127)
@@ -148,7 +148,6 @@ print('truck 2 has these packages: ', truck2.packages)
 print('truck 3 has these packages: ', truck3.packages, end='\n\n')
 
 # csv_data.min_distance_from('4001 South 700 East', truck1.packages)
-csv_data.truck_load_pkgs(truck1, truck1.start_time, address_array, distance_array, my_hash)
 """
 next_truck_pkg = csv_data.min_distance_from(address_array[0], truck1, address_array, distance_array, my_hash)
 print('')
@@ -159,4 +158,16 @@ print(total_miles)
 """
 # print(csv_data.min_distance_from('4001 South 700 East', truck2, address_array, distance_array, my_hash), end='\n\n')
 # print(csv_data.min_distance_from('4001 South 700 East', truck3, address_array, distance_array, my_hash), end='\n\n')
+
+truck1_dist = csv_data.deliver_pkgs(truck1, address_array, distance_array, my_hash)
+truck2_dist = csv_data.deliver_pkgs(truck2, address_array, distance_array, my_hash)
+truck3_dist = csv_data.deliver_pkgs(truck3, address_array, distance_array, my_hash)
+
+print(truck1_dist)
+print(truck2_dist)
+print(truck3_dist)
+
+
+for i in range(1, 41):
+    print(my_hash.lookup(i))
 

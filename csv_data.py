@@ -1,4 +1,5 @@
 import csv
+import datetime
 
 
 class Package:
@@ -11,12 +12,16 @@ class Package:
         self.del_dead_line = del_dead_line
         self.weight = wgt
         self.spec_notes = spec_notes
+        self.status = 'At the Hub.'
+        self.time_delivered = None
+        self.assigned_truck = None
+        self.time_left_hub = None
 
     def __str__(self):  # The __str__() function controls what should be returned when the class object is
         # represented as a string.  Overwrite print(Package) to avoid printing its object memory reference location.  If
         # the __str__() function is not set, the string representation of the object is returned.
-        return "%s, %s, %s, %s, %s, %s, %s, %s" % (
-            self.id, self.address, self.city, self.state, self.zip, self.del_dead_line, self.weight, self.spec_notes)
+        return "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" % (
+            self.id, self.address, self.city, self.state, self.zip,  self.weight, self.spec_notes, self.status, self.assigned_truck, self.time_left_hub, self.del_dead_line, self.time_delivered)
         # %s, %d, and %f are format specifiers or placeholders for formatting strings, decimals, and floats,
         # etc. respectively.  In this case a string is being used, so %s.  Following the complete string "%s, %s, %s,
         # %s, %s, %s, %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
@@ -24,13 +29,15 @@ class Package:
 
 
 class Truck:
-    def __init__(self, pkgs, current_time):
+    def __init__(self, number, pkgs, current_time):
+        self.number = number
         self.current_location = '4001 South 700 East'  # start location is at the hub
         self.packages = pkgs  # list of packages on each truck
         self.current_time = current_time
         self.miles = 0
-        self.time_left_hub = 0
+        self.time_left_hub = current_time
         self.start_time = 0
+
 
         # TODO
         """
@@ -52,6 +59,11 @@ class Truck:
         # %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
         # within the () after the % symbol.
 
+    def has_pkgs_left_to_deliver(self):
+        return len(self.packages) > 0
+
+    def remove_package(self, pkg_id):
+        self.packages.remove(pkg_id)
 
 def load_package_data(file_name, my_hash):
     with open(file_name, newline='') as pack:
@@ -164,7 +176,7 @@ def min_distance_from(from_address, truck, address_array, distance_array, my_has
         address2 = my_hash.lookup(truck.packages[i]).address
         # print(address2)
         dist = float(distance_between(from_address, address2, address_array, distance_array))
-        print('The distance between', from_address, 'and', address2, 'is: ', dist, 'miles.')
+
         if dist < min_dist:
             min_dist = dist
             next_addr = address2
@@ -173,27 +185,76 @@ def min_distance_from(from_address, truck, address_array, distance_array, my_has
     return next_addr, next_id, min_dist  # all the min distance address package info is returned.
 
 
+def deliver_pkgs(truck, address_array, distance_array, my_hash):
+    #  while the truck has more packages
+    total_distance = 0
+    while truck.has_pkgs_left_to_deliver():
+    # while len(truck.packages) > 0:
+        from_address = truck.current_location
+        pkg_address, pkg_id, dist = min_distance_from(truck.current_location, truck, address_array, distance_array, my_hash)  # returns items as a list and instead assigning them to variables
+        pkg_object = my_hash.lookup(pkg_id)
+        pkg_object.status = 'At the Hub.'
+        pkg_object.time_delivered = None
+        pkg_object.assigned_truck = truck.number
+        pkg_object.time_left_hub = truck.time_left_hub
+        truck.remove_package(pkg_id)
+        truck.current_location = pkg_object.address
+        truck.current_time = truck.current_time + datetime.timedelta(hours=dist/18)
+        pkg_object.time_delivered = truck.current_time
+        total_distance += dist
+        print('The distance between', from_address, 'and', truck.current_location, 'is: ', dist, 'miles.')
+    return total_distance
+
+
 def truck_load_pkgs(truck, start_time, address_array, distance_array, my_hash):
-    list_order = []
-    unvisited_addr_list = []
-    visited_addr_list = []
+    unvisited_pkg_list = []
+    visited_pkg_list = []
     total_miles = 0
 
     for pkg in truck.packages:
-        unvisited_addr_list.append(pkg)
-    print(unvisited_addr_list)
+        # for i in my_hash.lookup(truck.packages.id):
+        # unvisited_pkg_list.append(pkg)
+        unvisited_pkg_list.append(pkg)
+    # print(unvisited_pkg_list)
+    print('The unvisited package list contains: ', unvisited_pkg_list)
 
-    for i in unvisited_addr_list:
-        next_truck_pkg = min_distance_from(address_array[i], truck, address_array, distance_array, my_hash)
+    next_truck_pkg = min_distance_from(address_array[0], truck, address_array, distance_array, my_hash)
+    print('')
+    print('The next package to be delivered is', next_truck_pkg)
+    next_addr = next_truck_pkg[0]
+    next_id = next_truck_pkg[1]
+    min_dist = next_truck_pkg[2]
+
+    print('The minimum distance from', address_array[0], 'to', next_addr, 'that has the package id #', next_id,
+          'is', min_dist, 'miles.')
+    total_miles = total_miles + min_dist
+    print('The total miles calculated so far is: ', total_miles, end='\n\n')
+    visited_pkg_list.append(address_array[0])
+    print('The visited package list includes: ', visited_pkg_list)
+    print('The unvisited package list includes: ', unvisited_pkg_list)
+
+    from_addr = next_addr
+    for i in range(len(unvisited_pkg_list)):
+        next_truck_pkg = min_distance_from(from_addr, truck, address_array, distance_array, my_hash)
         print('')
-        print(next_truck_pkg)
-        miles = next_truck_pkg[2]
-        print('miles from', address_array[i], 'to', next_truck_pkg[0], 'is', miles, 'miles.')
-        total_miles = total_miles + next_truck_pkg[2]
-        print('The total miles calculated so far is: ', total_miles, 'miles.', end='\n\n')
-        visited_addr_list.append(address_array[i])
-        print(visited_addr_list)
-        unvisited_addr_list.pop(0)
+        print('The next package to be delivered is', next_truck_pkg)
+        from_addr = next_truck_pkg[0]
+        next_id = next_truck_pkg[1]
+        min_dist = next_truck_pkg[2]
+
+        print('The minimum distance from', next_addr, 'to', next_addr, 'that has the package id #', next_id,
+              'is', min_dist, 'miles.')
+        total_miles = total_miles + min_dist
+        print('The total min_dist calculated so far is: ', total_miles, 'min_dist.', end='\n\n')
+        visited_pkg_list.append(from_addr)
+        print('The visited package list includes: ', visited_pkg_list)
+        unvisited_pkg_list.remove(next_id)
+
+        """
+        if address_array[i] != '4001 South 700 East':
+            # unvisited_pkg_list.pop(0)  # wrong because it removes package #1, but I need to remove hub address
+            unvisited_pkg_list.remove(next_truck_pkg[1])
+        """
 
     """
     visited_addr = []
