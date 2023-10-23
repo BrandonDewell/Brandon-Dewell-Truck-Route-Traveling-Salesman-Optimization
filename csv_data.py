@@ -21,7 +21,8 @@ class Package:
         # represented as a string.  Overwrite print(Package) to avoid printing its object memory reference location.  If
         # the __str__() function is not set, the string representation of the object is returned.
         return "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" % (
-            self.id, self.address, self.city, self.state, self.zip,  self.weight, self.spec_notes, self.status, self.assigned_truck, self.time_left_hub, self.del_dead_line, self.time_delivered)
+            self.id, self.address, self.city, self.state, self.zip, self.weight, self.spec_notes, self.status,
+            self.assigned_truck, self.time_left_hub, self.del_dead_line, self.time_delivered)
         # %s, %d, and %f are format specifiers or placeholders for formatting strings, decimals, and floats,
         # etc. respectively.  In this case a string is being used, so %s.  Following the complete string "%s, %s, %s,
         # %s, %s, %s, %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
@@ -31,13 +32,12 @@ class Package:
 class Truck:
     def __init__(self, number, pkgs, current_time):
         self.number = number
-        self.current_location = '4001 South 700 East'  # start location is at the hub
+        self.current_loc = '4001 South 700 East'  # start location is at the hub
         self.packages = pkgs  # list of packages on each truck
         self.current_time = current_time
         self.miles = 0
         self.time_left_hub = current_time
         self.start_time = 0
-
 
         # TODO
         """
@@ -53,7 +53,7 @@ class Truck:
         # represented as a string.  Overwrite print(Truck) to avoid printing its object memory reference location.  If
         # the __str__() function is not set, the string representation of the object is returned.
         return "%s, %s, %s, %s, %s, %s" % (
-            self.current_location, self.packages, self.current_time, self.miles, self.time_left_hub, self.start_time)
+            self.current_loc, self.packages, self.current_time, self.miles, self.time_left_hub, self.start_time)
         # %s, %d, and %f are format specifiers or placeholders for formatting strings, decimals, and floats,
         # etc. respectively.  In this case a string is being used, so %s.  Following the complete string "%s, %s, %s,
         # %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
@@ -64,6 +64,7 @@ class Truck:
 
     def remove_package(self, pkg_id):
         self.packages.remove(pkg_id)
+
 
 def load_package_data(file_name, my_hash):
     with open(file_name, newline='') as pack:
@@ -189,20 +190,23 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
     #  while the truck has more packages
     total_distance = 0
     while truck.has_pkgs_left_to_deliver():
-    # while len(truck.packages) > 0:
-        from_address = truck.current_location
-        pkg_address, pkg_id, dist = min_distance_from(truck.current_location, truck, address_array, distance_array, my_hash)  # returns items as a list and instead assigning them to variables
+        # while len(truck.packages) > 0:
+        from_address = truck.current_loc
+        pkg_addr, pkg_id, dist = min_distance_from(truck.current_loc, truck, address_array, distance_array, my_hash)
+        # the function normally returns the info as items in a list and here it instead assigns them to variables.
         pkg_object = my_hash.lookup(pkg_id)
         pkg_object.status = 'At the Hub.'
         pkg_object.time_delivered = None
         pkg_object.assigned_truck = truck.number
         pkg_object.time_left_hub = truck.time_left_hub
         truck.remove_package(pkg_id)
-        truck.current_location = pkg_object.address
-        truck.current_time = truck.current_time + datetime.timedelta(hours=dist/18)
+        truck.current_loc = pkg_object.address
+        truck.current_time = truck.current_time + datetime.timedelta(hours=(dist / 18))
         pkg_object.time_delivered = truck.current_time
+        # total_distance = total_distance + dist
         total_distance += dist
-        print('The distance between', from_address, 'and', truck.current_location, 'is: ', dist, 'miles.')
+        print('Truck #', truck.number, 'The distance between', from_address, 'and', truck.current_loc, 'is: ',
+              dist, 'miles. Truck #', truck.number, '\'s total distance travelled is:', total_distance, 'miles.')
     return total_distance
 
 
