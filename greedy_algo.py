@@ -1,7 +1,9 @@
-import csv_data
-
 
 def greedy_algorithm_shortest_distances(from_address, truck, address_array, distance_array, my_hash):
+    pass
+
+
+"""
     def min_distance_from(from_address, truck, address_array, distance_array, my_hash):
         min_dist = 100
         next_addr = 0
@@ -22,3 +24,4 @@ def greedy_algorithm_shortest_distances(from_address, truck, address_array, dist
     unvisited_addr = []
 
     visited_addr = []
+"""

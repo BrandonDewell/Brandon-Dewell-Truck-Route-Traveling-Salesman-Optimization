@@ -111,11 +111,11 @@ t1 = [csv_data.get_package_info(my_hash, 1), csv_data.get_package_info(my_hash, 
       csv_data.get_package_info(my_hash, 40)]  
 """
 
-t1_pkgs = [1, 29, 30, 31, 32, 34, 40]  # leaves at 8am, must be delivered by 10:30am, 31 and 32 same address.
-t2_pkgs = [6, 25, 26, 28, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 22, 23, 24, 27, 33, 35, 36, 37, 38, 39]  # waits
+t1_pkgs = [1, 29, 30, 31, 32, 34, 40, 2, 4, 5, 7, 8, 9, 10, 11, 12]  # leaves at 8am, must be delivered by 10:30am, 31 and 32 same address.
+t2_pkgs = [3, 18, 36, 38, 6, 25, 26, 37, 39]  # waits
 # to leave until 9:06am, 6, 25 delivered by 10:30am, the rest must be delivered by the EOD, 8 and 9 same address,
-# 25 and 26 same address, 37 and 38 same address.
-t3_pkgs = [15, 13, 14, 16, 20, 21, 19]  # leaves at 8am, 15 by 9am, 13, 14, 16, 20 by 10:30am, 19 by EOD, and they all
+# 25 and 26 same address, 37 and 38 same address, 3, 18, 36, 38 can only be on truck #2.
+t3_pkgs = [15, 13, 14, 16, 20, 21, 19, 28, 17, 22, 23, 24, 27, 33, 35]  # leaves at 8am, 15 by 9am, 13, 14, 16, 20 by 10:30am, 19 by EOD, and they all
 # have to be delivered together, 15 and 16 same address, 20 and 21 same address.
 
 
@@ -139,7 +139,7 @@ truck3 = csv_data.Truck(3, t3_pkgs, time_object)
 print(truck3.current_time)
 
 time_object = datetime.timedelta(seconds=127)
-truck1.current_time = truck1.current_time + time_object
+truck1.current_time = truck1.current_time + time_object  # use this to change the start time to delay when a truck leaves.
 print(truck1.current_time, end='\n\n')
 
 print('truck 1 has these', len(truck1.packages), 'packages: ', truck1.packages)  # truck1 is the truck object,

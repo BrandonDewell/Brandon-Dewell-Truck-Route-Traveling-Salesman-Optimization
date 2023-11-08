@@ -96,8 +96,10 @@ def get_package_data(my_hash):
     print('')
 
 
+"""
 def get_package_info(my_hash, id):
     return id
+"""
 
 
 # def insert_package_data(file_name, my_hash):
@@ -114,10 +116,12 @@ def get_distance_data(my_hash, dist1, dist2):
         # and printed.
 """
 
+
 # TODO
 """
 def insert_package_data(h):
     myHash.insert()
+    https://wgu.webex.com/meet/tammy.migliore
     https://wgu.webex.com/meet/judy.ligocki
     https://wgu.webex.com/meet/preety.khatri
     https://wgu.webex.com/meet/mark.denchy
@@ -189,7 +193,7 @@ def min_distance_from(from_address, truck, address_array, distance_array, my_has
 def deliver_pkgs(truck, address_array, distance_array, my_hash):
     #  while the truck has more packages
     total_distance = 0
-    while truck.has_pkgs_left_to_deliver():
+    while truck.has_pkgs_left_to_deliver():  # AKA while this statement is true...
         # while len(truck.packages) > 0:
         from_address = truck.current_loc
         pkg_addr, pkg_id, dist = min_distance_from(truck.current_loc, truck, address_array, distance_array, my_hash)
@@ -210,6 +214,7 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
     return total_distance
 
 
+"""
 def truck_load_pkgs(truck, start_time, address_array, distance_array, my_hash):
     unvisited_pkg_list = []
     visited_pkg_list = []
@@ -254,16 +259,16 @@ def truck_load_pkgs(truck, start_time, address_array, distance_array, my_hash):
         print('The visited package list includes: ', visited_pkg_list)
         unvisited_pkg_list.remove(next_id)
 
-        """
-        if address_array[i] != '4001 South 700 East':
+        
+        # if address_array[i] != '4001 South 700 East':
             # unvisited_pkg_list.pop(0)  # wrong because it removes package #1, but I need to remove hub address
-            unvisited_pkg_list.remove(next_truck_pkg[1])
-        """
+            # unvisited_pkg_list.remove(next_truck_pkg[1])
+        
 
-    """
-    visited_addr = []
+    # visited_addr = []
     
-    """
+    
+"""
 
 
 """
@@ -284,11 +289,13 @@ def min_distance_from(from_address, truck_packages_array):
     return next_addr, next_id, min_dist
 """
 
+
 """ for i in truck_packages_array:
         # print(i)
         dist = distance_between(from_address, truck_packages_array[i], 'addresses.csv', 'distances.csv')
         print(dist)
 """
+
 
 """
     min_dist = 100
