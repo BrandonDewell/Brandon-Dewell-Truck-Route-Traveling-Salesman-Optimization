@@ -111,12 +111,20 @@ t1 = [csv_data.get_package_info(my_hash, 1), csv_data.get_package_info(my_hash, 
       csv_data.get_package_info(my_hash, 40)]  
 """
 
-t1_pkgs = [1, 29, 30, 31, 32, 34, 40, 2, 4, 5, 7, 8, 9, 10, 11, 12]  # leaves at 8am, must be delivered by 10:30am, 31 and 32 same address.
-t2_pkgs = [3, 18, 36, 38, 6, 25, 26, 37, 39]  # waits
-# to leave until 9:06am, 6, 25 delivered by 10:30am, the rest must be delivered by the EOD, 8 and 9 same address,
+# t1_pkgs = [1, 29, 30, 31, 32, 34, 40, 2, 4, 5, 7, 10, 11, 12]  # leaves at 8am, 15 by 9am, must be delivered by
+# 10:30am, 31 and 32 same address.
+t1_pkgs = [1, 29, 30, 31, 34, 37, 40, 13, 14, 15, 16, 19, 20, 21, 38]
+# t2_pkgs = [3, 18, 36, 38, 6, 37, 39, 8, 9]  # waits
+# to leave until 9:05am, 6, 25 delivered by 10:30am, the rest must be delivered by the EOD, 8 and 9 same address,
 # 25 and 26 same address, 37 and 38 same address, 3, 18, 36, 38 can only be on truck #2.
-t3_pkgs = [15, 13, 14, 16, 20, 21, 19, 28, 17, 22, 23, 24, 27, 33, 35]  # leaves at 8am, 15 by 9am, 13, 14, 16, 20 by 10:30am, 19 by EOD, and they all
-# have to be delivered together, 15 and 16 same address, 20 and 21 same address.
+
+# t3_pkgs = [15, 13, 14, 16, 20, 21, 19, 28, 17, 22, 23, 24, 27, 33, 35, 25, 26]  # leaves at 8am, 13, 14, 16,
+# 20 by 10:30am, 19 by EOD, and they all have to be delivered together, 15 and 16 same address, 20 and 21 same address.
+t3_pkgs = [6, 25, 26]
+t2_pkgs = [28, 32, 9, 5, 3, 18, 36, 38, 2, 4, 7, 8, 10, 11, 12, 17]
+
+# package 9 wrong address is:  9,300 State St,Salt Lake City,UT,84103,EOD,2,Wrong address listed
+# package 9 new address is:  9,410 S State St,Salt Lake City,UT,84111,EOD,2,Wrong address listed
 
 
 # input('Enter the start of day time in hh:mm:ss :')
@@ -124,23 +132,35 @@ t3_pkgs = [15, 13, 14, 16, 20, 21, 19, 28, 17, 22, 23, 24, 27, 33, 35]  # leaves
 start_time = '08:00:00'
 h, m, s = start_time.split(':')
 # time_object = datetime.timedelta(hours=8, minutes=0, seconds=0)
-time_object = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
+time_object_1 = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
 
 print('t1 list: ', t1_pkgs)
 print('t2 list: ', t2_pkgs)
 print('t3 list: ', t3_pkgs, end='\n\n')
 
 
-truck1 = csv_data.Truck(1, t1_pkgs, time_object)
-print(truck1.current_time)
-truck2 = csv_data.Truck(2, t2_pkgs, time_object)
-print('This is truck2:', truck2)
-truck3 = csv_data.Truck(3, t3_pkgs, time_object)
-print(truck3.current_time)
+truck1 = csv_data.Truck(1, t1_pkgs, time_object_1)
+truck3 = csv_data.Truck(3, t3_pkgs, time_object_1)
+truck2 = csv_data.Truck(2, t2_pkgs, time_object_1)
 
-time_object = datetime.timedelta(seconds=127)
-truck1.current_time = truck1.current_time + time_object  # use this to change the start time to delay when a truck leaves.
-print(truck1.current_time, end='\n\n')
+print('Truck 1 leaves at:', truck1.current_time)
+print('This is truck1:', truck1, end='\n\n')
+
+
+time_object_3 = datetime.timedelta(hours=int(1), minutes=int(5), seconds=int(1))  # adjust truck3 start time
+truck3.current_time = truck3.current_time + time_object_3
+truck3.time_left_hub = truck3.current_time
+print('Truck 3 leaves at:', truck3.current_time)
+print('This is truck3:', truck3, end='\n\n')
+
+# time_object = datetime.timedelta(hours=int(1), minutes=int(5), seconds=int(1))
+
+time_object_2 = datetime.timedelta(hours=int(2), minutes=int(20), seconds=int(1))
+truck2.current_time = truck2.current_time + time_object_2  # use this to change the start time when a truck leaves.
+truck2.time_left_hub = truck2.current_time
+print('Truck 2 leaves at:', truck2.current_time)
+print('This is truck2 with updated current time and start time:', truck2, end='\n\n')
+
 
 print('truck 1 has these', len(truck1.packages), 'packages: ', truck1.packages)  # truck1 is the truck object,
 # .packages is a field in the Truck class which holds the list.
@@ -159,11 +179,11 @@ print(total_miles)
 # print(csv_data.min_distance_from('4001 South 700 East', truck2, address_array, distance_array, my_hash), end='\n\n')
 # print(csv_data.min_distance_from('4001 South 700 East', truck3, address_array, distance_array, my_hash), end='\n\n')
 
-truck1_dist = csv_data.deliver_pkgs(truck1, address_array, distance_array, my_hash)
+truck1_dist, truck1_pkg_time_del = csv_data.deliver_pkgs(truck1, address_array, distance_array, my_hash)
 print('')
-truck2_dist = csv_data.deliver_pkgs(truck2, address_array, distance_array, my_hash)
+truck2_dist, truck2_pkg_time_del = csv_data.deliver_pkgs(truck2, address_array, distance_array, my_hash)
 print('')
-truck3_dist = csv_data.deliver_pkgs(truck3, address_array, distance_array, my_hash)
+truck3_dist, truck3_pkg_time_del = csv_data.deliver_pkgs(truck3, address_array, distance_array, my_hash)
 print('')
 
 print('Truck #1\'s total distance is: ', truck1_dist, 'miles.')

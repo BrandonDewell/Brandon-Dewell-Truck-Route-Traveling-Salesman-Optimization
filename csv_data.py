@@ -193,16 +193,20 @@ def min_distance_from(from_address, truck, address_array, distance_array, my_has
 def deliver_pkgs(truck, address_array, distance_array, my_hash):
     #  while the truck has more packages
     total_distance = 0
+    pkg_object = None
     while truck.has_pkgs_left_to_deliver():  # AKA while this statement is true...
         # while len(truck.packages) > 0:
         from_address = truck.current_loc
         pkg_addr, pkg_id, dist = min_distance_from(truck.current_loc, truck, address_array, distance_array, my_hash)
         # the function normally returns the info as items in a list and here it instead assigns them to variables.
         pkg_object = my_hash.lookup(pkg_id)
-        pkg_object.status = 'At the Hub.'
-        pkg_object.time_delivered = None
+        pkg_object.status = 'At the Hub'
+        # pkg_object.time_delivered = None
+        pkg_object.time_delivered = truck.current_time
         pkg_object.assigned_truck = truck.number
         pkg_object.time_left_hub = truck.time_left_hub
+        pkg_object.status = "Delivered"
+
         truck.remove_package(pkg_id)
         truck.current_loc = pkg_object.address
         truck.current_time = truck.current_time + datetime.timedelta(hours=(dist / 18))
@@ -211,7 +215,8 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
         total_distance += dist
         print('Truck #', truck.number, 'The distance between', from_address, 'and', truck.current_loc, 'is: ',
               dist, 'miles. Truck #', truck.number, '\'s total distance travelled is:', total_distance, 'miles.')
-    return total_distance
+        print('Package #', pkg_id, 'was delivered at', pkg_object.time_delivered, '.')
+    return total_distance, pkg_object.time_delivered
 
 
 """
