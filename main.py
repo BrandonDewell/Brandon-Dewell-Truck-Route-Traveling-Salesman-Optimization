@@ -113,7 +113,7 @@ t1 = [csv_data.get_package_info(my_hash, 1), csv_data.get_package_info(my_hash, 
 
 # t1_pkgs = [1, 29, 30, 31, 32, 34, 40, 2, 4, 5, 7, 10, 11, 12]  # leaves at 8am, 15 by 9am, must be delivered by
 # 10:30am, 31 and 32 same address.
-t1_pkgs = [1, 29, 30, 31, 34, 37, 40, 13, 14, 15, 16, 19, 20, 21, 38]
+t1_pkgs = [1, 29, 30, 31, 34, 37, 40, 13, 14, 15, 16, 19, 20, 21, 38, 5]
 # t2_pkgs = [3, 18, 36, 38, 6, 37, 39, 8, 9]  # waits
 # to leave until 9:05am, 6, 25 delivered by 10:30am, the rest must be delivered by the EOD, 8 and 9 same address,
 # 25 and 26 same address, 37 and 38 same address, 3, 18, 36, 38 can only be on truck #2.
@@ -121,7 +121,7 @@ t1_pkgs = [1, 29, 30, 31, 34, 37, 40, 13, 14, 15, 16, 19, 20, 21, 38]
 # t3_pkgs = [15, 13, 14, 16, 20, 21, 19, 28, 17, 22, 23, 24, 27, 33, 35, 25, 26]  # leaves at 8am, 13, 14, 16,
 # 20 by 10:30am, 19 by EOD, and they all have to be delivered together, 15 and 16 same address, 20 and 21 same address.
 t3_pkgs = [6, 25, 26]
-t2_pkgs = [28, 32, 9, 5, 3, 18, 36, 38, 2, 4, 7, 8, 10, 11, 12, 17]
+t2_pkgs = [28, 32, 9, 3, 18, 36, 38, 2, 4, 7, 8, 10, 11, 12, 17, 22]
 
 # package 9 wrong address is:  9,300 State St,Salt Lake City,UT,84103,EOD,2,Wrong address listed
 # package 9 new address is:  9,410 S State St,Salt Lake City,UT,84111,EOD,2,Wrong address listed
@@ -183,7 +183,7 @@ print(total_miles)
 # print(csv_data.min_distance_from('4001 South 700 East', truck2, address_array, distance_array, my_hash), end='\n\n')
 # print(csv_data.min_distance_from('4001 South 700 East', truck3, address_array, distance_array, my_hash), end='\n\n')
 
-truck1_dist, go_to_hub_dist_t1 = csv_data.deliver_pkgs(truck1, address_array, distance_array, my_hash)
+truck1_first_load_dist, go_to_hub_dist_t1 = csv_data.deliver_pkgs(truck1, address_array, distance_array, my_hash)
 print('')
 truck3_dist, go_to_hub_dist_t3 = csv_data.deliver_pkgs(truck3, address_array, distance_array, my_hash)
 print('')
@@ -191,15 +191,32 @@ truck2_dist, go_to_hub_dist_t2 = csv_data.deliver_pkgs(truck2, address_array, di
 print('')
 
 
-print('Truck #1\'s total distance is: ', truck1_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t1, 'miles.')
+print('Truck #1\'s first load total distance is: ', truck1_first_load_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t1, 'miles.')
 print('Truck #2\'s total distance is: ', truck2_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t2, 'miles.')
 print('Truck #3\'s total distance is: ', truck3_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t3, 'miles.')
-print('The total distance travelled by all three trucks is', truck1_dist + truck2_dist + truck3_dist, 'miles.')
+print('The total distance travelled by all three trucks is', truck1_first_load_dist + truck2_dist + truck3_dist, 'miles.')
 print('')
 
 print('pkg#, del address, del city, del state, del zipcode, weight, special notes, location, truck # package is on, '
       'time left hub, delivery dead line, time delivered')
 for i in range(1, 41):
     print(my_hash.lookup(i))
+print('')
 
-# t1_pkgs = [1, 29, 30, 31, 34, 37, 40, 13, 14, 15, 16, 19, 20, 21, 38]
+# reload truck 1 with the rest of the packages that are left at the hub.
+t1_reload_pkgs = [23, 24, 27, 33, 35, 39]
+# truck1.time_left_hub = truck1.current_time
+# truck1.add_package(t1_reload_pkgs, my_hash)
+# print('Truck 1 should now have these packages: ', t1_reload_pkgs, '. Here is truck1\'s object info:', truck1)
+truck4 = csv_data.Truck(1, t1_reload_pkgs, truck1.current_time)
+truck1 = truck4
+print('Truck 1 should now have these packages: ', t1_reload_pkgs, '. Here is truck 1\'s object info:', truck1)
+truck1_reload_dist, go_to_hub_dist_t1_reload = csv_data.deliver_pkgs(truck1, address_array, distance_array, my_hash)
+print('')
+
+print('Truck #1\'s reload total distance is: ', truck1_reload_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t1_reload, 'miles.')
+print('Truck #1\'s total distance is: ', truck1_first_load_dist + truck1_reload_dist, 'miles.')
+print('Truck #2\'s total distance is: ', truck2_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t2, 'miles.')
+print('Truck #3\'s total distance is: ', truck3_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t3, 'miles.')
+print('The total distance travelled by all three trucks is', truck1_first_load_dist + truck1_reload_dist + truck2_dist + truck3_dist, 'miles.')
+print('')

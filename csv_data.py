@@ -65,6 +65,12 @@ class Truck:
     def remove_package(self, pkg_id):
         self.packages.remove(pkg_id)
 
+    def add_package(self, pkg_list, my_hash):
+        for i in pkg_list:
+            while i < len(pkg_list):
+                p = my_hash.lookup(i)
+                self.packages.insert(pkg_list)
+
 
 def load_package_data(file_name, my_hash):
     with open(file_name, newline='') as pack:
@@ -199,7 +205,7 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
         pkg_addr, pkg_id, dist = min_distance_from(truck.current_loc, truck, address_array, distance_array, my_hash)
         # the function normally returns the info as items in a list and here it instead assigns them to variables.
         pkg_object = my_hash.lookup(pkg_id)
-        pkg_object.status = 'At the Hub'
+        pkg_object.status = 'In Transit'
         # pkg_object.time_delivered = None
         pkg_object.time_delivered = truck.current_time
         pkg_object.assigned_truck = truck.number
@@ -216,16 +222,19 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
               dist, 'miles. Truck #', truck.number, '\'s total distance travelled is:', total_distance, 'miles.')
         print('Package #', pkg_id, 'was delivered at', pkg_object.time_delivered)
 
+    """
+    go_to_hub_dist = 0
     for i in range(1, 41):
         p = my_hash.lookup(i)
         if p.status == 'At the Hub.':  # a check if there are undelivered packages left, otherwise no need to return
             # to hub.
-            go_to_hub_dist = float(distance_between(truck.current_loc, from_address, address_array, distance_array))
-            truck.current_loc = '4001 South 700 East'
-            truck.current_time = truck.current_time + datetime.timedelta(hours=(go_to_hub_dist / 18))
-            total_distance += go_to_hub_dist
-            print('The truck is back at the hub at:', truck.current_loc, 'at', truck.current_time)
-            return total_distance, go_to_hub_dist
+    """
+    go_to_hub_dist = float(distance_between(truck.current_loc, from_address, address_array, distance_array))
+    truck.current_loc = '4001 South 700 East'
+    truck.current_time = truck.current_time + datetime.timedelta(hours=(go_to_hub_dist / 18))
+    total_distance += go_to_hub_dist
+    print('The truck is back at the hub at:', truck.current_loc, 'at', truck.current_time)
+    return total_distance, go_to_hub_dist
 
 
 """
