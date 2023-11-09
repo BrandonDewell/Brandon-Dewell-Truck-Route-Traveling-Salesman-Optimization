@@ -91,7 +91,7 @@ def get_package_data(my_hash):
     print("Packages from Hashtable:")
     # Fetch data from Hash Table
     for i in range(len(my_hash.table) + 1):  # for i in my_hash.table:
-        print("Key: {} and Package: {}".format(i, my_hash.lookup(i + 1)))  # 1 to 11 is sent to
+        print("Key: {} and Package: {}".format(i, my_hash.lookup(i + 1)))  # 1 to 41 is sent to
         # myHash.lookup() and printed.
     print('')
 
@@ -100,7 +100,6 @@ def get_package_data(my_hash):
 def get_package_info(my_hash, id):
     return id
 """
-
 
 # def insert_package_data(file_name, my_hash):
 
@@ -115,7 +114,6 @@ def get_distance_data(my_hash, dist1, dist2):
         print("Key: {} and Package: {}".format(i, my_hash.lookup(i + 1)))  # 1 to 11 is sent to myHash.lookup()
         # and printed.
 """
-
 
 # TODO
 """
@@ -194,6 +192,7 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
     #  while the truck has more packages
     total_distance = 0
     pkg_object = None
+    from_address = truck.current_loc
     while truck.has_pkgs_left_to_deliver():  # AKA while this statement is true...
         # while len(truck.packages) > 0:
         from_address = truck.current_loc
@@ -215,8 +214,18 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
         total_distance += dist
         print('Truck #', truck.number, 'The distance between', from_address, 'and', truck.current_loc, 'is: ',
               dist, 'miles. Truck #', truck.number, '\'s total distance travelled is:', total_distance, 'miles.')
-        print('Package #', pkg_id, 'was delivered at', pkg_object.time_delivered, '.')
-    return total_distance, pkg_object.time_delivered
+        print('Package #', pkg_id, 'was delivered at', pkg_object.time_delivered)
+
+    for i in range(1, 41):
+        p = my_hash.lookup(i)
+        if p.status == 'At the Hub.':  # a check if there are undelivered packages left, otherwise no need to return
+            # to hub.
+            go_to_hub_dist = float(distance_between(truck.current_loc, from_address, address_array, distance_array))
+            truck.current_loc = '4001 South 700 East'
+            truck.current_time = truck.current_time + datetime.timedelta(hours=(go_to_hub_dist / 18))
+            total_distance += go_to_hub_dist
+            print('The truck is back at the hub at:', truck.current_loc, 'at', truck.current_time)
+            return total_distance, go_to_hub_dist
 
 
 """
@@ -275,7 +284,6 @@ def truck_load_pkgs(truck, start_time, address_array, distance_array, my_hash):
     
 """
 
-
 """
 def min_distance_from(from_address, truck_packages_array):
     min_dist = 100
@@ -294,13 +302,11 @@ def min_distance_from(from_address, truck_packages_array):
     return next_addr, next_id, min_dist
 """
 
-
 """ for i in truck_packages_array:
         # print(i)
         dist = distance_between(from_address, truck_packages_array[i], 'addresses.csv', 'distances.csv')
         print(dist)
 """
-
 
 """
     min_dist = 100

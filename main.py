@@ -134,9 +134,13 @@ h, m, s = start_time.split(':')
 # time_object = datetime.timedelta(hours=8, minutes=0, seconds=0)
 time_object_1 = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
 
+
+# to print off the list of the packages in each list.
+"""
 print('t1 list: ', t1_pkgs)
 print('t2 list: ', t2_pkgs)
 print('t3 list: ', t3_pkgs, end='\n\n')
+"""
 
 
 truck1 = csv_data.Truck(1, t1_pkgs, time_object_1)
@@ -179,16 +183,17 @@ print(total_miles)
 # print(csv_data.min_distance_from('4001 South 700 East', truck2, address_array, distance_array, my_hash), end='\n\n')
 # print(csv_data.min_distance_from('4001 South 700 East', truck3, address_array, distance_array, my_hash), end='\n\n')
 
-truck1_dist, truck1_pkg_time_del = csv_data.deliver_pkgs(truck1, address_array, distance_array, my_hash)
+truck1_dist, go_to_hub_dist_t1 = csv_data.deliver_pkgs(truck1, address_array, distance_array, my_hash)
 print('')
-truck2_dist, truck2_pkg_time_del = csv_data.deliver_pkgs(truck2, address_array, distance_array, my_hash)
+truck3_dist, go_to_hub_dist_t3 = csv_data.deliver_pkgs(truck3, address_array, distance_array, my_hash)
 print('')
-truck3_dist, truck3_pkg_time_del = csv_data.deliver_pkgs(truck3, address_array, distance_array, my_hash)
+truck2_dist, go_to_hub_dist_t2 = csv_data.deliver_pkgs(truck2, address_array, distance_array, my_hash)
 print('')
 
-print('Truck #1\'s total distance is: ', truck1_dist, 'miles.')
-print('Truck #2\'s total distance is: ', truck2_dist, 'miles.')
-print('Truck #3\'s total distance is: ', truck3_dist, 'miles.')
+
+print('Truck #1\'s total distance is: ', truck1_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t1, 'miles.')
+print('Truck #2\'s total distance is: ', truck2_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t2, 'miles.')
+print('Truck #3\'s total distance is: ', truck3_dist, 'miles, of which returning to the hub is: ', go_to_hub_dist_t3, 'miles.')
 print('The total distance travelled by all three trucks is', truck1_dist + truck2_dist + truck3_dist, 'miles.')
 print('')
 
@@ -196,3 +201,5 @@ print('pkg#, del address, del city, del state, del zipcode, weight, special note
       'time left hub, delivery dead line, time delivered')
 for i in range(1, 41):
     print(my_hash.lookup(i))
+
+# t1_pkgs = [1, 29, 30, 31, 34, 37, 40, 13, 14, 15, 16, 19, 20, 21, 38]
