@@ -2,7 +2,7 @@ class ChainingHashTable:
     # Constructor with optional initial capacity parameter.
     # Assigns all buckets with an empty list.
 
-    def __init__(self, initial_capacity=40):  # def __init__(self, initial_capacity=10): this is the old data.
+    def __init__(self, initial_capacity=10):  # def __init__(self, initial_capacity=10): this is the old data.
         # initialize the hash table with empty bucket list entries.
         self.table = []
         for i in range(initial_capacity):
@@ -10,7 +10,7 @@ class ChainingHashTable:
 
     # Inserts a new item into the hash table.
     def insert(self, key, item):  # does both insert and update
-        # get the bucket list where this item will go.
+        # get the bucket list where this item/object/package will go.
         bucket = hash(key) % len(self.table)
         bucket_list = self.table[bucket]
 
@@ -38,6 +38,7 @@ class ChainingHashTable:
         for kv in bucket_list:
             # print (key_value)
             if kv[0] == key:
+                # print('Done via lookup call: ', kv[1])
                 return kv[1]  # value
         return None
 
