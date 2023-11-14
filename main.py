@@ -297,13 +297,12 @@ for i in range(1, 41):
     """
 print('')
 
-
 if __name__ == '__main__':
-    print("\nWelcome to WGUPS")
 
     # loop until user is satisfied
-    isExit = True
-    while isExit:
+    keep_running = True
+    while keep_running:
+        print("\nWelcome to WGUPS")
         print("\nOptions:")
         print("1. Package delivery status")
         print("2. Get package data")
@@ -314,20 +313,8 @@ if __name__ == '__main__':
             user_time = input('At what time do you want the data (ex. 09:15:00)?')
             h, m, s = user_time.split(':')
             time_object = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
-            just_previous_time = []
             for i in range(1, 41):
-                if my_hash.lookup(i).time_delivered < time_object:
-                    just_previous_time.append(my_hash.lookup(i).time_delivered)
-            max_time = '08:00:00'
-            for i in just_previous_time[]:
-                if just_previous_time[i] > max_time:
-                    max_time = just_previous_time[i]
-
-
-            while csv_data.truck.current_time == time_object:
-                for i in range(1, 41):
-                    my_hash.lookup(i).
-                    print(my_hash.lookup(i))
+                print(my_hash.lookup(i).print_pkg_status_at_time(time_object))
         elif option == "2":
             print('option 2')
             # budget = int(input("What is your budget (ex. 150)? "))
@@ -336,7 +323,6 @@ if __name__ == '__main__':
             print('option 3')
             # dijkstraAlgorithmShorthestPath()
         elif option == "4":
-            isExit = False
+            keep_running = False
         else:
             print("Wrong option, please try again!")
-

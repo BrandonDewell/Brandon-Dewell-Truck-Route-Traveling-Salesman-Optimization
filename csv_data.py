@@ -27,6 +27,21 @@ class Package:
         # %s, %s, %s, %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
         # within the () after the % symbol.
 
+    def print_pkg_status_at_time(self, user_entered_time):
+        temp_status = ''
+        temp_delivery_time = ''
+        if user_entered_time < self.time_left_hub:
+            temp_status = 'At the Hub'
+        elif user_entered_time > self.time_delivered:
+            temp_status = 'Delivered'
+            temp_delivery_time = self.time_delivered
+        else:
+            temp_status = 'In Route'
+
+        return "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" % (
+            self.id, self.address, self.city, self.state, self.zip, self.weight, self.spec_notes, temp_status,
+            self.assigned_truck, self.time_left_hub, self.del_dead_line, temp_delivery_time)
+
 
 class Truck:
     def __init__(self, truck_number, pkgs, current_time):
