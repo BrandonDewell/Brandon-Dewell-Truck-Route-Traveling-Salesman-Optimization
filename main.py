@@ -235,10 +235,23 @@ print('truck 1 now has these', len(truck1.packages), 'packages on board: ', truc
 print('truck 2 now has these', len(truck2.packages), 'packages on board: ', truck2.packages)
 print('truck 3 now has these', len(truck3.packages), 'packages on board: ', truck3.packages, end='\n\n')
 
-print('Data from the hash table:  pkg#, del address, del city, del state, del zipcode, weight, special notes, package '
-      'status, truck # assigned to package,', 'time left hub, delivery dead line, time delivered')
+print('Data from the hash table:  pkg#, del address, del city, del state, del zipcode, deadline, weight, '
+      'special notes, package status, time delivered, truck # assigned to package,', 'time left hub')
 for i in range(1, 41):
-    print(my_hash.lookup(i))
+    # print(my_hash.lookup(i))
+    print(my_hash.lookup(i).id)
+    print(my_hash.lookup(i).address)
+    print(my_hash.lookup(i).city)
+    print(my_hash.lookup(i).state)
+    print(my_hash.lookup(i).zip)
+    print(my_hash.lookup(i).del_dead_line)
+    print(my_hash.lookup(i).weight)
+    print(my_hash.lookup(i).spec_notes)
+    print(my_hash.lookup(i).status)
+    print(my_hash.lookup(i).time_delivered)
+    print(my_hash.lookup(i).assigned_truck)
+    print(my_hash.lookup(i).time_left_hub)
+    print('')
 print('')
 
 # reload truck 1 with the rest of the packages that are left at the hub.
@@ -263,3 +276,67 @@ print('Truck #3\'s total distance is: ', truck3_dist, 'miles, of which returning
 print('The total distance travelled by all three trucks is', truck1_first_load_dist + truck1_reload_dist + truck2_dist
       + truck3_dist, 'miles.')
 print('')
+print('Data from the hash table:  pkg#, del address, del city, del state, del zipcode, weight, special notes, package '
+      'status, truck # assigned to package,', 'time left hub, delivery dead line, time delivered')
+for i in range(1, 41):
+    print(my_hash.lookup(i))
+    """
+    print(my_hash.lookup(i).id)
+    print(my_hash.lookup(i).address)
+    print(my_hash.lookup(i).city)
+    print(my_hash.lookup(i).state)
+    print(my_hash.lookup(i).zip)
+    print(my_hash.lookup(i).del_dead_line)
+    print(my_hash.lookup(i).weight)
+    print(my_hash.lookup(i).spec_notes)
+    print(my_hash.lookup(i).status)
+    print(my_hash.lookup(i).time_delivered)
+    print(my_hash.lookup(i).assigned_truck)
+    print(my_hash.lookup(i).time_left_hub)
+    print('')
+    """
+print('')
+
+
+if __name__ == '__main__':
+    print("\nWelcome to WGUPS")
+
+    # loop until user is satisfied
+    isExit = True
+    while isExit:
+        print("\nOptions:")
+        print("1. Package delivery status")
+        print("2. Get package data")
+        print("3. Get truck mileage")
+        print("4. Exit the Program")
+        option = input("Choose an option (1,2,3 or 4): ")
+        if option == "1":
+            user_time = input('At what time do you want the data (ex. 09:15:00)?')
+            h, m, s = user_time.split(':')
+            time_object = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
+            just_previous_time = []
+            for i in range(1, 41):
+                if my_hash.lookup(i).time_delivered < time_object:
+                    just_previous_time.append(my_hash.lookup(i).time_delivered)
+            max_time = '08:00:00'
+            for i in just_previous_time[]:
+                if just_previous_time[i] > max_time:
+                    max_time = just_previous_time[i]
+
+
+            while csv_data.truck.current_time == time_object:
+                for i in range(1, 41):
+                    my_hash.lookup(i).
+                    print(my_hash.lookup(i))
+        elif option == "2":
+            print('option 2')
+            # budget = int(input("What is your budget (ex. 150)? "))
+            # greedyAlgorithmMinExpenses(budget)
+        elif option == "3":
+            print('option 3')
+            # dijkstraAlgorithmShorthestPath()
+        elif option == "4":
+            isExit = False
+        else:
+            print("Wrong option, please try again!")
+

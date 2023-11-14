@@ -39,10 +39,8 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
     from_address = truck.current_loc
     for i in range(len(truck.packages)):
         my_hash.lookup(truck.packages[i]).status = 'In Route'
-        print('Package #', truck.packages[i], '\'s status changed to: ', my_hash.lookup(truck.packages[i]).status)
-    # for i in my_hash.lookup(truck.packages[i]).status:
-        # pkg_object = my_hash.lookup(i)
-        # hash_table.my_hash.insert()
+        # to show packages status is being updated right before heading out, uncomment next line.
+        # print('Package #', truck.packages[i], '\'s status changed to: ', my_hash.lookup(truck.packages[i]).status)
 
     while truck.has_pkgs_left_to_deliver():  # AKA while this statement is true...
         # while len(truck.packages) > 0:
