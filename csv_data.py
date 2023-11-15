@@ -32,11 +32,13 @@ class Package:
         temp_delivery_time = ''
         if user_entered_time < self.time_left_hub:
             temp_status = 'At the Hub'
-        elif user_entered_time > self.time_delivered:
+            temp_delivery_time = 'Not yet delivered'
+        elif user_entered_time >= self.time_delivered:
             temp_status = 'Delivered'
             temp_delivery_time = self.time_delivered
         else:
             temp_status = 'In Route'
+            temp_delivery_time = 'Not yet delivered'
 
         return "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" % (
             self.id, self.address, self.city, self.state, self.zip, self.weight, self.spec_notes, temp_status,

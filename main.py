@@ -235,6 +235,7 @@ print('truck 1 now has these', len(truck1.packages), 'packages on board: ', truc
 print('truck 2 now has these', len(truck2.packages), 'packages on board: ', truck2.packages)
 print('truck 3 now has these', len(truck3.packages), 'packages on board: ', truck3.packages, end='\n\n')
 
+"""
 print('Data from the hash table:  pkg#, del address, del city, del state, del zipcode, deadline, weight, '
       'special notes, package status, time delivered, truck # assigned to package,', 'time left hub')
 for i in range(1, 41):
@@ -253,6 +254,7 @@ for i in range(1, 41):
     print(my_hash.lookup(i).time_left_hub)
     print('')
 print('')
+"""
 
 # reload truck 1 with the rest of the packages that are left at the hub.
 t1_reload_pkgs = [23, 24, 27, 33, 35, 39]
@@ -276,11 +278,12 @@ print('Truck #3\'s total distance is: ', truck3_dist, 'miles, of which returning
 print('The total distance travelled by all three trucks is', truck1_first_load_dist + truck1_reload_dist + truck2_dist
       + truck3_dist, 'miles.')
 print('')
+"""
 print('Data from the hash table:  pkg#, del address, del city, del state, del zipcode, weight, special notes, package '
       'status, truck # assigned to package,', 'time left hub, delivery dead line, time delivered')
 for i in range(1, 41):
     print(my_hash.lookup(i))
-    """
+
     print(my_hash.lookup(i).id)
     print(my_hash.lookup(i).address)
     print(my_hash.lookup(i).city)
@@ -305,24 +308,36 @@ if __name__ == '__main__':
         print("\nWelcome to WGUPS")
         print("\nOptions:")
         print("1. Package delivery status")
-        print("2. Get package data")
-        print("3. Get truck mileage")
-        print("4. Exit the Program")
-        option = input("Choose an option (1,2,3 or 4): ")
+        print("2. Get total truck mileage")
+        print("3. Exit the Program")
+        option = input("Enter an option (1,2 or 3): ")
         if option == "1":
-            user_time = input('At what time do you want the data (ex. 09:15:00)?')
+            print('')
+            user_time = input('At what time do you want the package data (ex. 09:15:00)?')
+            print('')
             h, m, s = user_time.split(':')
             time_object = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
+            print(
+                'Package data at', time_object, ':\n'
+                'Package ID #, Delivery address, city, state, zipcode, '
+                'Package weight, Package special notes, Package delivery status, Truck # assigned to package, ' 
+                'Time the package left the hub, Delivery deadline, Time of package delivery')
             for i in range(1, 41):
                 print(my_hash.lookup(i).print_pkg_status_at_time(time_object))
         elif option == "2":
-            print('option 2')
+            print('')
+            print('Truck #1\'s total distance travelled at the EOD is: ', truck1_first_load_dist + truck1_reload_dist, 'miles.')
+            print('Truck #2\'s total distance travelled at the EOD is: ', truck2_dist, 'miles.')
+            print('Truck #3\'s total distance travelled at the EOD is: ', truck3_dist, 'miles.')
+            print('The total distance travelled by all three trucks at the EOD is',
+                  truck1_first_load_dist + truck1_reload_dist + truck2_dist
+                  + truck3_dist, 'miles.')
             # budget = int(input("What is your budget (ex. 150)? "))
             # greedyAlgorithmMinExpenses(budget)
         elif option == "3":
-            print('option 3')
-            # dijkstraAlgorithmShorthestPath()
-        elif option == "4":
+            print('')
+            print('Thanks for using WGUPS!  Goodbye.')
             keep_running = False
         else:
+            print('')
             print("Wrong option, please try again!")
