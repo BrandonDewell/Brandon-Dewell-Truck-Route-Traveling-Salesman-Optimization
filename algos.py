@@ -1,7 +1,5 @@
 import datetime
 
-import hash_table
-
 
 def distance_between(address1, address2, address_array, distance_array):
     addr1 = address_array.index(address1)
@@ -61,9 +59,13 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
         pkg_object.time_delivered = truck.current_time
         # total_distance = total_distance + dist
         total_distance += dist
+
+        """
         print('Truck #', truck.number, 'The distance between', from_address, 'and', truck.current_loc, 'is: ',
               dist, 'miles. Truck #', truck.number, '\'s total distance travelled is:', total_distance, 'miles.')
         print('Package #', pkg_id, '\'s status: ', pkg_object.status, 'at', pkg_object.time_delivered)
+        """
+
         """
         for i in range(1, 41):
             print('Evidence status is changing per delivered package', my_hash.lookup(i))
@@ -80,7 +82,7 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
     truck.current_loc = '4001 South 700 East'
     truck.current_time = truck.current_time + datetime.timedelta(hours=(go_to_hub_dist / 18))
     total_distance += go_to_hub_dist
-    print('The truck is back at the hub at:', truck.current_loc, 'at', truck.current_time)
+    # print('The truck is back at the hub at:', truck.current_loc, 'at', truck.current_time)
     return total_distance, go_to_hub_dist
 
 
