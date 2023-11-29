@@ -79,9 +79,9 @@ def deliver_pkgs(truck, address_array, distance_array, my_hash):
             # to hub.
     """
     go_to_hub_dist = float(distance_between(truck.current_loc, from_address, address_array, distance_array))
+    total_distance += go_to_hub_dist
     truck.current_loc = '4001 South 700 East'
     truck.current_time = truck.current_time + datetime.timedelta(hours=(go_to_hub_dist / 18))
-    total_distance += go_to_hub_dist
     # print('The truck is back at the hub at:', truck.current_loc, 'at', truck.current_time)
     return total_distance, go_to_hub_dist
 
