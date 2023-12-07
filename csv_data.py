@@ -28,8 +28,6 @@ class Package:
         # within the () after the % symbol.
 
     def print_pkg_status_at_time(self, user_entered_time):
-        temp_status = ''
-        temp_delivery_time = ''
         if user_entered_time < self.time_left_hub:
             temp_status = 'At the Hub'
             temp_delivery_time = 'Not yet delivered'
@@ -55,25 +53,9 @@ class Truck:
         self.time_left_hub = current_time
         self.start_time = 0
 
-        # TODO
-        """
-        info from judy's meeting on 10/3/23
-        time truck left
-        truck total miles
-        time object built in to python
-        datetime
-        time delta
-        """
-
-    def __str__(self):  # The __str__() function controls what should be returned when the class object is
-        # represented as a string.  Overwrite print(Truck) to avoid printing its object memory reference location.  If
-        # the __str__() function is not set, the string representation of the object is returned.
+    def __str__(self):
         return "%s, %s, %s, %s, %s, %s" % (
             self.current_loc, self.packages, self.current_time, self.miles, self.time_left_hub, self.start_time)
-        # %s, %d, and %f are format specifiers or placeholders for formatting strings, decimals, and floats,
-        # etc. respectively.  In this case a string is being used, so %s.  Following the complete string "%s, %s, %s,
-        # %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
-        # within the () after the % symbol.
 
     def has_pkgs_left_to_deliver(self):
         return len(self.packages) > 0
@@ -81,11 +63,14 @@ class Truck:
     def remove_package(self, pkg_id):
         self.packages.remove(pkg_id)
 
+
+"""
     def add_package(self, pkg_list, my_hash):
         for i in pkg_list:
             while i < len(pkg_list):
                 p = my_hash.lookup(i)
                 self.packages.insert(pkg_list)
+"""
 
 
 def load_package_data(file_name, my_hash):
@@ -106,9 +91,9 @@ def load_package_data(file_name, my_hash):
 
             # insert the package object into the hash table.
             my_hash.insert(p_id, package)
-        # print('All package data has been inserted into the hash table.', end='\n\n')
 
 
+"""
 def get_package_data(my_hash):
     print("Packages from Hashtable:")
     # Fetch data from Hash Table
@@ -116,37 +101,6 @@ def get_package_data(my_hash):
         print("Key: {} and Package: {}".format(i, my_hash.lookup(i + 1)))  # 1 to 11 is sent to
         # myHash.lookup() and printed.
     print('')
-
-
-"""
-def get_package_info(my_hash, id):
-    return id
-"""
-
-# def insert_package_data(file_name, my_hash):
-
-
-"""
-def get_distance_data(my_hash, dist1, dist2):
-    budget = int(input("? "))
-    greedyAlgorithmMinExpenses(budget)
-    print("Distance between  from Hashtable:")
-    # Fetch data from Hash Table
-    for i in range(len(my_hash.table) + 1):  # for i in my_hash.table:
-        print("Key: {} and Package: {}".format(i, my_hash.lookup(i + 1)))  # 1 to 11 is sent to myHash.lookup()
-        # and printed.
-"""
-
-# TODO
-"""
-def insert_package_data(h):
-    myHash.insert()
-    https://wgu.webex.com/meet/tammy.migliore
-    https://wgu.webex.com/meet/judy.ligocki
-    https://wgu.webex.com/meet/preety.khatri
-    https://wgu.webex.com/meet/mark.denchy
-    
-    student ID # 001478703
 """
 
 
@@ -154,28 +108,19 @@ def load_distance_array(file_name, distance_array):
     with open(file_name, 'r') as dist:  # r means read
         distance_data = csv.reader(dist, delimiter=',')
         for distance in distance_data:
-            # print(distance)
             distance_array.append(distance)
-        # print('The distance array is loaded.', end='\n\n')
-
-
-"""
-def get_distance_array()
-    for x in address_array:
-        print(x)
-"""
 
 
 def load_address_array(file_name, address_array):
     with open(file_name, 'r') as addr:
         address_data = csv.reader(addr, delimiter=',')
         for address in address_data:
-            # print(address[0])
             address_array.append(address[0])
-        # print('The address array has been loaded.', end='\n\n')
 
 
+"""
 def address_index_lookup(address, address_array):
     addr = address_array.index(address)
     print('The address array index for', address, 'is: ', addr, end='\n\n')
     return addr
+"""
