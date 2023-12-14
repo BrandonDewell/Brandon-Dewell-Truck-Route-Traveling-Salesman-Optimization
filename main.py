@@ -53,7 +53,7 @@ truck1 = truck4
 truck1_reload_dist, go_to_hub_dist_t1_reload = algos.deliver_pkgs(truck1, address_array, distance_array, my_hash)
 
 
-# user interface.  T(N) = O(N^2), S(N) = O(N^2)
+# user interface.  T(N) = O(N), S(N) = O(N)
 if __name__ == '__main__':
     keep_running = True
 

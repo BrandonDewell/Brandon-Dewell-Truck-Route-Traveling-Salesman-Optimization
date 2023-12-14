@@ -1,7 +1,7 @@
 # ChainingHashTable T(N) = O(N), S(N) = O(N)
 class ChainingHashTable:
     # Constructor with optional initial capacity parameter.  It assigns all buckets with an empty list.
-    # __init__() T(N) = O(N), S(n) = O(N)
+    # __init__() T(N) = O(N), S(N) = O(N)
     def __init__(self, initial_capacity=10):
         # initialize the hash table with empty bucket list entries.
         self.table = []
