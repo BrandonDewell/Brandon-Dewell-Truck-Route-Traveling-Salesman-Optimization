@@ -4,15 +4,6 @@ import algos
 import hash_table
 import csv_data
 
-"""
-https: // wgu.webex.com / meet / tammy.migliore
-https: // wgu.webex.com / meet / judy.ligocki
-https: // wgu.webex.com / meet / preety.khatri
-https: // wgu.webex.com / meet / mark.denchy
-
-student ID  # 001478703
-"""
-
 # create a hash table.
 my_hash = hash_table.ChainingHashTable()
 
@@ -62,7 +53,7 @@ truck1 = truck4
 truck1_reload_dist, go_to_hub_dist_t1_reload = algos.deliver_pkgs(truck1, address_array, distance_array, my_hash)
 
 
-# user interface.
+# user interface.  T(N) = O(N^2), S(N) = O(N^2)
 if __name__ == '__main__':
     keep_running = True
 

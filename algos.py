@@ -2,6 +2,7 @@ import datetime
 
 
 # finds the distance between two addresses.
+# distance_between() T(N) = O(1), S(N) = O(1)
 def distance_between(address1, address2, address_array, distance_array):
     addr1 = address_array.index(address1)
     addr2 = address_array.index(address2)
@@ -13,6 +14,7 @@ def distance_between(address1, address2, address_array, distance_array):
 
 
 # finds the smallest distance to the next address from the current address by iterating through a list of distances.
+# min_distance_from() T(N) = O(N), S(N) = O(N)
 def min_distance_from(from_address, truck, address_array, distance_array, my_hash):
     next_addr = 0
     next_id = 0
@@ -30,6 +32,7 @@ def min_distance_from(from_address, truck, address_array, distance_array, my_has
     return next_addr, next_id, min_dist  # all the min distance address package info is returned.
 
 
+# deliver_pkgs() T(N) = O(N), S(N) = O(N)
 def deliver_pkgs(truck, address_array, distance_array, my_hash):
     total_distance = 0
     from_address = truck.current_loc

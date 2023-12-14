@@ -1,7 +1,9 @@
 import csv
 
 
+# class Package T(N) = O(1), S(N) = O(1)
 class Package:
+    # __init__() T(N) = O(1), S(N) = O(1)
     def __init__(self, ident, address, city, state, zip_code, del_dead_line, wgt, spec_notes):
         self.id = ident
         self.address = address
@@ -16,6 +18,7 @@ class Package:
         self.assigned_truck = None
         self.time_left_hub = None
 
+    # __str__() T(N) = O(1), S(N) = O(1)
     def __str__(self):  # The __str__() function controls what should be returned when the class object is
         # represented as a string.  Overwrite print(Package) to avoid printing its object memory reference location.  If
         # the __str__() function is not set, the string representation of the object is returned.
@@ -27,6 +30,7 @@ class Package:
         # %s, %s, %s, %s, %s", there is a % and ().  The %s is replaced by whatever thing/s I pass to the string
         # within the () after the % symbol.
 
+    # print_pkg_status_at_time() T(N) = O(1), S(N) = O(1)
     def print_pkg_status_at_time(self, user_entered_time):
         if user_entered_time < self.time_left_hub:
             temp_status = 'At the Hub'
@@ -43,7 +47,10 @@ class Package:
             self.assigned_truck, self.time_left_hub, self.del_dead_line, temp_delivery_time)
 
 
+# class Truck T(N) = O(1), S(N) = O(1)
 class Truck:
+
+    # __init__() T(N) = O(1), S(N) = O(1)
     def __init__(self, truck_number, pkgs, current_time):
         self.number = truck_number
         self.current_loc = '4001 South 700 East'  # start location is at the hub
@@ -53,13 +60,16 @@ class Truck:
         self.time_left_hub = current_time
         self.start_time = 0
 
+    # __str__() T(N) = O(1), S(N) = O(1)
     def __str__(self):
         return "%s, %s, %s, %s, %s, %s" % (
             self.current_loc, self.packages, self.current_time, self.miles, self.time_left_hub, self.start_time)
 
+    # has_pkgs_left_to_deliver() T(N) = O(1), S(N) = O(1)
     def has_pkgs_left_to_deliver(self):
         return len(self.packages) > 0
 
+    # remove_package() T(N) = O(1), S(N) = O(1)
     def remove_package(self, pkg_id):
         self.packages.remove(pkg_id)
 
@@ -73,6 +83,7 @@ class Truck:
 """
 
 
+# load_package_data() T(N) = O(N), S(N) = O(N)
 def load_package_data(file_name, my_hash):
     with open(file_name, newline='') as pack:
         package_data = csv.reader(pack, delimiter=',')
@@ -104,6 +115,7 @@ def get_package_data(my_hash):
 """
 
 
+# load_distance_array() T(N) = O(N), S(N) = O(N)
 def load_distance_array(file_name, distance_array):
     with open(file_name, 'r') as dist:  # r means read
         distance_data = csv.reader(dist, delimiter=',')
@@ -111,6 +123,7 @@ def load_distance_array(file_name, distance_array):
             distance_array.append(distance)
 
 
+# load_address_array() T(N) = O(N), S(N) = O(N)
 def load_address_array(file_name, address_array):
     with open(file_name, 'r') as addr:
         address_data = csv.reader(addr, delimiter=',')
